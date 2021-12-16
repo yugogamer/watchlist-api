@@ -1,0 +1,27 @@
+[package]
+name = "watchlist-api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# Diesel
+diesel = { version = "1.4.4", features = ["postgres"] }
+
+# Web server and documentation
+rocket = "0.5.0-rc.1"
+rocket_okapi = { version = "0.8.0-rc.1", features=["swagger"]}
+
+# sérialisation/déserialisation JSON
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# runtime async
+tokio = { version = "1", features = ["full"] }
+
+# gestion db engine
+[dependencies.rocket_sync_db_pools]
+version = "0.1.0-rc.1"
+default-features = false
+features = ["diesel_postgres_pool"]

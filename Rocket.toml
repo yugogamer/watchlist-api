@@ -1,0 +1,2 @@
+[global.databases]
+main_db = { url = "postgres://api-watchlist:watchlist_pswd@localhost/watchlist" }
