@@ -1,6 +1,6 @@
 #[macro_use]
 extern crate diesel;
-use rocket_okapi::{request::{OpenApiFromRequest, RequestHeaderInput}, gen::OpenApiGenerator};
+use rocket_okapi::{request::{OpenApiFromRequest, RequestHeaderInput}, gen::OpenApiGenerator, swagger_ui::{make_swagger_ui, SwaggerUIConfig}};
 use rocket_sync_db_pools::{database};
 
 mod entity;
@@ -15,6 +15,14 @@ struct Db(diesel::PgConnection);
 async fn main() -> Result<(), rocket::Error> {
     let loader = rocket::build().attach(Db::fairing());
     let loader = controller::series::load_road(loader);
+    let loader = loader.mount(
+        "/doc/",
+        make_swagger_ui(&SwaggerUIConfig {
+            url: "/series/openapi.json".to_owned(),
+            ..Default::default()
+        }),
+    );
+
 
     loader.launch().await
 }
