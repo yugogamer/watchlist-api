@@ -6,10 +6,10 @@ use diesel::result::Error;
 
 use crate::entity::series::{Series, NewSeries};
 
-pub async fn create_series(conn : &PgConnection, new_series : NewSeries<'_>) -> Result<usize, diesel::result::Error>{
-    return diesel::insert_into(series::table).values(&new_series).execute(conn);
+pub fn create_series(conn : &PgConnection, new_series : &NewSeries) -> Result<usize, diesel::result::Error>{
+    return diesel::insert_into(series::table).values(new_series).execute(conn);
 }
 
-pub async fn get_list(conn : &PgConnection) -> Result<Vec<Series>, Error> {
+pub fn get_list(conn : &PgConnection) -> Result<Vec<Series>, Error> {
     series.load::<Series>(conn)
 }

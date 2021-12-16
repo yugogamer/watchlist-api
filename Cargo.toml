@@ -7,11 +7,12 @@ edition = "2021"
 
 [dependencies]
 # Diesel
-diesel = { version = "1.4.4", features = ["postgres"] }
+diesel = { version = "1.4.4", features = ["postgres", "serde_json"] }
 
 # Web server and documentation
 rocket = "0.5.0-rc.1"
 rocket_okapi = { version = "0.8.0-rc.1", features=["swagger"]}
+schemars = "0.8.7"
 
 # sérialisation/déserialisation JSON
 serde = { version = "1.0", features = ["derive"] }
