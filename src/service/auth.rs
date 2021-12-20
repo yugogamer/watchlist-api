@@ -7,8 +7,8 @@ use crate::entity::schema::session;
 use crate::diesel::ExpressionMethods;
 
 
-pub fn login(conn : &PgConnection, username_ : String ,password_ : String) -> Result<i32, String>{
-    let result = account.filter(username.eq(username_)).filter(password.eq(password_)).first::<Account>(conn);
+pub fn login(conn : &PgConnection, email_ : String ,password_ : String) -> Result<i32, String>{
+    let result = account.filter(email.eq(email_)).filter(password.eq(password_)).first::<Account>(conn);
 
     match result{
         Ok(user) => {
