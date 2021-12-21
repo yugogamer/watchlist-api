@@ -39,3 +39,9 @@ pub struct Session{
 pub struct NewSession{
     pub id_account: i32,
 }
+
+#[derive(Serialize, Deserialize, JsonSchema)]
+pub struct Login{
+    pub email : String,
+    pub password: String,
+}
