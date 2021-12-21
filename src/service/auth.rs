@@ -1,4 +1,4 @@
-use diesel::{PgConnection, QueryDsl};
+use diesel::{PgConnection, QueryDsl, JoinOnDsl};
 use crate::diesel::RunQueryDsl;
 use crate::entity::schema::account::dsl::*;
 use crate::entity::schema::session::dsl::*;
@@ -35,5 +35,24 @@ pub fn logout(conn : &PgConnection, id_ : i32) -> bool{
     match result {
         Ok(_) => return true,
         Err(_) => return false,
+    }
+}
+
+pub fn is_logged(conn : &PgConnection, session_id_ : i32) -> Result<Account, String> {
+    use crate::entity::schema::account;
+
+    let join = account::table.left_join(session::table.on(
+        account::id.eq(session::id_account))).filter(account::id.eq(session_id_));
+
+    let result = join.first::<(Account, Option<Session>)>(conn);
+
+    match result {
+        Ok((user, sesion)) => {
+            match sesion {
+                Some(_) => return Ok(user),
+                None => return Err("not logged".to_owned()),
+            }
+        },
+        Err(_) => return Err("no account".to_owned()),
     }
 }
